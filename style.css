@@ -52,3 +52,17 @@ body {
 .letter-full {
   background-color: var(--var-full-match);
 }
+
+.modal-container {
+  z-index: 100;
+  position: fixed;
+  top: calc(50% - 100px);
+  left: 20%;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: calc(50% - 200px);
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

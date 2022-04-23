@@ -7,6 +7,7 @@ import {
   MAX_TURNS,
   WORD_LENGTH,
 } from '../model';
+import { Modal } from '../layout/Modal';
 
 export const Wordle = ({ solution }) => {
   const { currentGuess, history, keyupHandler } = useWordle(solution);
@@ -68,6 +69,7 @@ export const Wordle = ({ solution }) => {
             }))
           )
         )}
+      <Modal message="Hai vinto!" />
     </React.Fragment>
   );
 };
