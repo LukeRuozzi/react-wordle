@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Wordle } from './components/Wordle';
-import Hello from './Hello';
 import './style.css';
 
 interface AppProps {}
@@ -20,8 +19,7 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <Hello name={this.state.name} />
-        <p>Start editing1 to see some magic happen :)</p>
+        <h1>Wordle</h1>
         <Wordle />
       </div>
     );
