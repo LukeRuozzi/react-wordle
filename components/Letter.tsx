@@ -9,8 +9,11 @@ type ComponentProps = {
 export const Letter = ({ letter, result }: ComponentProps) => {
   let className = '';
   switch (result) {
-    case LetterCheckResult.NONE: {
+    case LetterCheckResult.UNDEFINED:
       className = 'letter';
+      break;
+    case LetterCheckResult.NONE: {
+      className = 'letter letter-none';
       break;
     }
     case LetterCheckResult.MATCH_FULL: {

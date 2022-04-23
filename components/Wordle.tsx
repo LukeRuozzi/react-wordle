@@ -1,12 +1,15 @@
 import { useWordle } from '../hooks/useWordle';
 import React, { useEffect } from 'react';
 import { Letter } from './Letter';
-import { LetterCheckResult } from '../model';
+import {
+  LetterCheck,
+  LetterCheckResult,
+  MAX_TURNS,
+  WORD_LENGTH,
+} from '../model';
 
-export const Wordle = () => {
-  const solution = 'pippo';
-
-  const { currentGuess, keyupHandler } = useWordle(solution);
+export const Wordle = ({ solution }) => {
+  const { currentGuess, history, keyupHandler } = useWordle(solution);
 
   useEffect(() => {
     window.addEventListener('keyup', keyupHandler);
@@ -14,33 +17,57 @@ export const Wordle = () => {
     return () => window.removeEventListener('keyup', keyupHandler);
   }, [keyupHandler]);
 
-  const printCurrentGuess = (): JSX.Element => {
-    const elements: JSX.Element[] = [];
-
-    for (let i = 0; i < 5; i++) {
-      const letter = currentGuess.charAt(i);
-
-      /*
-      const rnd = Math.random();
-      let result =
-        rnd < 0.5
-          ? LetterCheckResult.NONE
-          : rnd > 0.7
-          ? LetterCheckResult.MATCH_FULL
-          : LetterCheckResult.MATCH_PARTIAL;
-          */
-
-      elements.push(
-        <Letter
-          key={i}
-          letter={letter ? letter.toUpperCase() : ''}
-          result={LetterCheckResult.NONE}
-        />
-      );
-    }
-
-    return <div className="guess-container">{elements}</div>;
+  const printGuess = (key: number, letters: LetterCheck[]): JSX.Element => {
+    return (
+      <div key={key} className="guess-container">
+        {letters.map((letter, index) => (
+          <Letter
+            key={index}
+            letter={letter ? letter.letter.toUpperCase() : ''}
+            result={letter.result}
+          />
+        ))}
+        {letters.length < WORD_LENGTH
+          ? [0, 1, 2, 3, 4]
+              .slice(-WORD_LENGTH + letters.length)
+              .map((_, index) => (
+                <Letter
+                  key={index}
+                  letter={''}
+                  result={LetterCheckResult.UNDEFINED}
+                />
+              ))
+          : null}
+      </div>
+    );
   };
 
-  return <>{currentGuess ? printCurrentGuess() : null}</>;
+  return (
+    <React.Fragment>
+      Solution: {solution}
+      <hr></hr>
+      {history &&
+        history.length > 0 &&
+        history.map((guess, index) => printGuess(index, guess.letters))}
+      {currentGuess
+        ? printGuess(
+            history.length,
+            currentGuess
+              .split('')
+              .map((r) => ({ letter: r, result: LetterCheckResult.UNDEFINED }))
+          )
+        : null}
+      {[0, 1, 2, 3, 4]
+        .slice(-MAX_TURNS + (currentGuess ? 1 : 0) + history.length)
+        .map((_, index) =>
+          printGuess(
+            index,
+            [1, 2, 3, 4, 5].map(() => ({
+              letter: '',
+              result: LetterCheckResult.UNDEFINED,
+            }))
+          )
+        )}
+    </React.Fragment>
+  );
 };

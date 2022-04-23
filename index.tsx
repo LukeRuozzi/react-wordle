@@ -18,9 +18,9 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Wordle</h1>
-        <Wordle />
+        <Wordle solution="pippo" />
       </div>
     );
   }
