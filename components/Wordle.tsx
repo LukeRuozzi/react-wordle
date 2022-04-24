@@ -10,6 +10,8 @@ import {
 } from '../model';
 import { Modal } from '../layout/Modal';
 import { faker } from '@faker-js/faker';
+import Keyboard from 'react-simple-keyboard';
+import 'react-simple-keyboard/build/css/index.css';
 
 export const Wordle = () => {
   const [solution, setSolution] = useState<string | null>(null);
@@ -23,7 +25,9 @@ export const Wordle = () => {
 
     let solution = '';
     do {
-      solution = faker.name.firstName('female');
+      //solution = faker.name.firstName('female');
+      //solution = faker.word.noun(5);
+      solution = faker.commerce.product();
     } while (solution.length !== WORD_LENGTH);
     return solution.toLowerCase();
   };
@@ -32,9 +36,10 @@ export const Wordle = () => {
     useWordle(solution);
 
   useEffect(() => {
-    window.addEventListener('keyup', keyupHandler);
+    window.addEventListener('keyup', (e) => keyupHandler(e.key));
 
-    return () => window.removeEventListener('keyup', keyupHandler);
+    return () =>
+      window.removeEventListener('keyup', (e) => keyupHandler(e.key));
   }, [keyupHandler]);
 
   const resetGame = () => {
@@ -68,9 +73,23 @@ export const Wordle = () => {
     );
   };
 
+  const onKeyPress = (button) => {
+    keyupHandler(button);
+    //console.log('Button pressed', button);
+  };
+
+  const layout = {
+    default: [
+      'Backspace Enter',
+      'q w e r t y u i o p',
+      'a s d f g h j k l',
+      'z x c v b n m',
+    ],
+  };
+
   return (
     <React.Fragment>
-      {solution && (
+      {solution && false && (
         <>
           Solution: {solution}
           <hr></hr>
@@ -99,6 +118,7 @@ export const Wordle = () => {
               }))
             )
           )}
+      <Keyboard onKeyPress={onKeyPress} layout={layout} />
       {result && (
         <Modal
           message={

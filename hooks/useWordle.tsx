@@ -74,27 +74,27 @@ export const useWordle = (solution: string) => {
     setWordsHistory([...wordsHistory, completeWord]);
   };
 
-  const keyupHandler = (e) => {
+  const keyupHandler = (button) => {
     //console.log(e.key);
 
     if (result) {
       return;
     }
 
-    if (e.key === 'Backspace') {
+    if (button === 'Backspace') {
       setCurrentGuess(currentGuess.slice(0, -1));
     } else if (
-      e.key === 'Enter' &&
+      button === 'Enter' &&
       currentGuess &&
       currentGuess.length === WORD_LENGTH &&
       wordsHistory.indexOf(currentGuess.toLowerCase()) === -1
     ) {
       checkGuess();
     } else if (
-      /^[A-Za-z]$/.test(e.key) &&
+      /^[A-Za-z]$/.test(button) &&
       (!currentGuess || currentGuess.length < WORD_LENGTH)
     ) {
-      setCurrentGuess((prev) => (prev ? prev : '') + e.key);
+      setCurrentGuess((prev) => (prev ? prev : '') + button);
     }
   };
 
