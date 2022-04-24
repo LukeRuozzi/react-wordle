@@ -25,9 +25,9 @@ export const Wordle = () => {
 
     let solution = '';
     do {
-      //solution = faker.name.firstName('female');
+      solution = faker.name.firstName('female');
       //solution = faker.word.noun(5);
-      solution = faker.commerce.product();
+      //solution = faker.commerce.product();
     } while (solution.length !== WORD_LENGTH);
     return solution.toLowerCase();
   };
@@ -80,11 +80,14 @@ export const Wordle = () => {
 
   const layout = {
     default: [
-      'Backspace Enter',
-      'q w e r t y u i o p',
-      'a s d f g h j k l',
-      'z x c v b n m',
+      'Q W E R T Y U I O P',
+      'A S D F G H J K L',
+      'Backspace L Z X C V B N M Enter',
     ],
+  };
+  const display = {
+    Backspace: '<',
+    Enter: 'Vai',
   };
 
   return (
@@ -118,7 +121,7 @@ export const Wordle = () => {
               }))
             )
           )}
-      <Keyboard onKeyPress={onKeyPress} layout={layout} />
+      <Keyboard onKeyPress={onKeyPress} layout={layout} display={display} />
       {result && (
         <Modal
           message={
