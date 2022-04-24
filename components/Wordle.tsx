@@ -5,12 +5,13 @@ import {
   LetterCheck,
   LetterCheckResult,
   MAX_TURNS,
+  Result,
   WORD_LENGTH,
 } from '../model';
 import { Modal } from '../layout/Modal';
 
 export const Wordle = ({ solution }) => {
-  const { currentGuess, history, keyupHandler } = useWordle(solution);
+  const { currentGuess, history, keyupHandler, result } = useWordle(solution);
 
   useEffect(() => {
     window.addEventListener('keyup', keyupHandler);
@@ -58,18 +59,21 @@ export const Wordle = ({ solution }) => {
               .map((r) => ({ letter: r, result: LetterCheckResult.UNDEFINED }))
           )
         : null}
-      {[0, 1, 2, 3, 4]
-        .slice(-MAX_TURNS + (currentGuess ? 1 : 0) + history.length)
-        .map((_, index) =>
-          printGuess(
-            index,
-            [1, 2, 3, 4, 5].map(() => ({
-              letter: '',
-              result: LetterCheckResult.UNDEFINED,
-            }))
-          )
-        )}
-      <Modal message="Hai vinto!" />
+      {history.length < MAX_TURNS - (currentGuess ? 1 : 0) &&
+        [0, 1, 2, 3, 4]
+          .slice(-MAX_TURNS + (currentGuess ? 1 : 0) + history.length)
+          .map((_, index) =>
+            printGuess(
+              index,
+              [1, 2, 3, 4, 5].map(() => ({
+                letter: '',
+                result: LetterCheckResult.UNDEFINED,
+              }))
+            )
+          )}
+      {result && (
+        <Modal message={result === Result.WIN ? 'Hai vinto!' : 'Game over'} />
+      )}
     </React.Fragment>
   );
 };

@@ -5,5 +5,9 @@ type ComponentProps = {
 };
 
 export const Modal = ({ message }: ComponentProps) => {
-  return <div className="modal-container">{message}</div>;
+  return (
+    <div className="modal-container">
+      <div className="modal-body">{message}</div>
+    </div>
+  );
 };

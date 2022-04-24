@@ -3,6 +3,8 @@ import {
   HistoryGuess,
   LetterCheck,
   LetterCheckResult,
+  MAX_TURNS,
+  Result,
   WORD_LENGTH,
 } from '../model';
 
@@ -10,6 +12,8 @@ export const useWordle = (solution: string) => {
   const [history, setHistory] = useState<HistoryGuess[]>([]);
   const [wordsHistory, setWordsHistory] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
+  const [turns, setTurns] = useState(0);
 
   const checkGuess = () => {
     const guess: HistoryGuess = {
@@ -31,16 +35,30 @@ export const useWordle = (solution: string) => {
       guess.letters.push(guessHistory);
     }
     setHistory([...history, guess]);
+
+    const completeWord = guess.letters
+      .map((l) => l.letter.toLowerCase())
+      .join('');
+
+    if (completeWord === solution) {
+      setResult(Result.WIN);
+    } else if (turns === MAX_TURNS - 1) {
+      setResult(Result.LOSE);
+    } else {
+      setTurns(turns + 1);
+    }
+
     setCurrentGuess(null);
 
-    setWordsHistory([
-      ...wordsHistory,
-      guess.letters.map((l) => l.letter.toLowerCase()).join(''),
-    ]);
+    setWordsHistory([...wordsHistory, completeWord]);
   };
 
   const keyupHandler = (e) => {
     //console.log(e.key);
+
+    if (result) {
+      return;
+    }
 
     if (e.key === 'Backspace') {
       setCurrentGuess(currentGuess.slice(0, -1));
@@ -63,5 +81,6 @@ export const useWordle = (solution: string) => {
     currentGuess,
     history,
     keyupHandler,
+    result,
   };
 };

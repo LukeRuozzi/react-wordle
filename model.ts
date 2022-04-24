@@ -14,5 +14,10 @@ export interface HistoryGuess {
   letters: LetterCheck[];
 }
 
+export enum Result {
+  WIN = 'W',
+  LOSE = 'L',
+}
+
 export const MAX_TURNS = 5;
 export const WORD_LENGTH = 5;
