@@ -1,19 +1,47 @@
 import { useWordle } from '../hooks/useWordle';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Letter } from './Letter';
-import { LetterCheck, LetterCheckResult, MAX_TURNS, Result } from '../model';
+import {
+  LetterCheck,
+  LetterCheckResult,
+  MAX_TURNS,
+  Result,
+  WORD_LENGTH,
+} from '../model';
 import { Modal } from '../layout/Modal';
+import { faker } from '@faker-js/faker';
 
-export const Wordle = ({ solution }) => {
-  const { currentGuess, history, keyupHandler, result } = useWordle(solution);
+export const Wordle = () => {
+  const [solution, setSolution] = useState<string | null>(null);
 
-  const WORD_LENGTH = solution.length;
+  useEffect(() => {
+    setSolution(getSolution());
+  }, []);
+
+  const getSolution = (): string => {
+    faker.locale = 'it';
+
+    let solution = '';
+    do {
+      solution = faker.name.firstName('female');
+    } while (solution.length !== WORD_LENGTH);
+    return solution.toLowerCase();
+  };
+
+  const { currentGuess, history, keyupHandler, result, reset } =
+    useWordle(solution);
 
   useEffect(() => {
     window.addEventListener('keyup', keyupHandler);
 
     return () => window.removeEventListener('keyup', keyupHandler);
   }, [keyupHandler]);
+
+  const resetGame = () => {
+    const newSolution = getSolution();
+    setSolution(newSolution);
+    reset(newSolution);
+  };
 
   const printGuess = (key: number, letters: LetterCheck[]): JSX.Element => {
     return (
@@ -42,8 +70,12 @@ export const Wordle = ({ solution }) => {
 
   return (
     <React.Fragment>
-      {/*Solution: {solution}*/}
-      <hr></hr>
+      {solution && (
+        <>
+          Solution: {solution}
+          <hr></hr>
+        </>
+      )}
       {history &&
         history.length > 0 &&
         history.map((guess, index) => printGuess(index, guess.letters))}
@@ -68,7 +100,22 @@ export const Wordle = ({ solution }) => {
             )
           )}
       {result && (
-        <Modal message={result === Result.WIN ? 'Hai vinto!' : 'Game over'} />
+        <Modal
+          message={
+            result === Result.WIN ? (
+              <>
+                <p>Hai vinto!</p>
+                <button onClick={resetGame}>Ricomincia</button>
+              </>
+            ) : (
+              <>
+                Game over.
+                <p>Solution: {solution}</p>
+                <button onClick={resetGame}>Ricomincia</button>
+              </>
+            )
+          }
+        />
       )}
     </React.Fragment>
   );

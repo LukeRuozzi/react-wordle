@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 type ComponentProps = {
-  message: string;
+  message: JSX.Element;
 };
 
 export const Modal = ({ message }: ComponentProps) => {

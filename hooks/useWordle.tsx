@@ -5,6 +5,7 @@ import {
   LetterCheckResult,
   MAX_TURNS,
   Result,
+  WORD_LENGTH,
 } from '../model';
 
 export const useWordle = (solution: string) => {
@@ -14,19 +15,38 @@ export const useWordle = (solution: string) => {
   const [result, setResult] = useState<Result | null>(null);
   const [turns, setTurns] = useState(0);
 
-  const WORD_LENGTH = solution.length;
+  const reset = (solution: string) => {
+    setHistory([]);
+    setWordsHistory([]);
+    setCurrentGuess(null);
+    setResult(null);
+    setTurns(0);
+    solution = solution;
+  };
 
   const checkGuess = () => {
     const guess: HistoryGuess = {
       letters: [],
     };
     for (let i = 0; i < WORD_LENGTH; i++) {
-      const guessLetter = currentGuess.charAt(i);
+      const guessLetter = currentGuess.charAt(i).toLowerCase();
       let result = LetterCheckResult.NONE;
+
+      /*
+      console.log(
+        guessLetter,
+        solution.charAt(i),
+        solution.indexOf(guessLetter)
+      );
+      */
+
       if (solution.charAt(i) === guessLetter) {
         result = LetterCheckResult.MATCH_FULL;
-      } else if (solution.indexOf(guessLetter) !== -1) {
-        result = LetterCheckResult.MATCH_PARTIAL;
+      } else {
+        const letterIndex = solution.indexOf(guessLetter);
+        if (letterIndex !== -1 && currentGuess[letterIndex] !== guessLetter) {
+          result = LetterCheckResult.MATCH_PARTIAL;
+        }
       }
 
       const guessHistory: LetterCheck = {
@@ -83,5 +103,6 @@ export const useWordle = (solution: string) => {
     history,
     keyupHandler,
     result,
+    reset,
   };
 };
