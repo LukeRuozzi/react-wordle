@@ -20,4 +20,4 @@ export enum Result {
 }
 
 export const MAX_TURNS = 5;
-export const WORD_LENGTH = 5;
+//export const WORD_LENGTH = 5;

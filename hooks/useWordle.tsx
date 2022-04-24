@@ -5,7 +5,6 @@ import {
   LetterCheckResult,
   MAX_TURNS,
   Result,
-  WORD_LENGTH,
 } from '../model';
 
 export const useWordle = (solution: string) => {
@@ -14,6 +13,8 @@ export const useWordle = (solution: string) => {
   const [currentGuess, setCurrentGuess] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [turns, setTurns] = useState(0);
+
+  const WORD_LENGTH = solution.length;
 
   const checkGuess = () => {
     const guess: HistoryGuess = {

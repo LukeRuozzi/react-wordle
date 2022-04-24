@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Wordle } from './components/Wordle';
 import './style.css';
+import { faker } from '@faker-js/faker';
 
 interface AppProps {}
 interface AppState {
@@ -11,6 +12,8 @@ interface AppState {
 class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
+    faker.locale = 'it';
+
     this.state = {
       name: 'React',
     };
@@ -20,7 +23,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <div className="container">
         <h1>Wordle</h1>
-        <Wordle solution="pippo" />
+        <Wordle solution={faker.name.firstName()} />
       </div>
     );
   }

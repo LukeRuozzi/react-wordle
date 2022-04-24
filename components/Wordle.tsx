@@ -1,17 +1,13 @@
 import { useWordle } from '../hooks/useWordle';
 import React, { useEffect } from 'react';
 import { Letter } from './Letter';
-import {
-  LetterCheck,
-  LetterCheckResult,
-  MAX_TURNS,
-  Result,
-  WORD_LENGTH,
-} from '../model';
+import { LetterCheck, LetterCheckResult, MAX_TURNS, Result } from '../model';
 import { Modal } from '../layout/Modal';
 
 export const Wordle = ({ solution }) => {
   const { currentGuess, history, keyupHandler, result } = useWordle(solution);
+
+  const WORD_LENGTH = solution.length;
 
   useEffect(() => {
     window.addEventListener('keyup', keyupHandler);
@@ -46,7 +42,7 @@ export const Wordle = ({ solution }) => {
 
   return (
     <React.Fragment>
-      Solution: {solution}
+      {/*Solution: {solution}*/}
       <hr></hr>
       {history &&
         history.length > 0 &&
