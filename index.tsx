@@ -23,7 +23,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <div className="container">
         <h1>Wordle</h1>
-        <Wordle solution={faker.name.firstName()} />
+        <Wordle solution={faker.name.firstName('male')} />
       </div>
     );
   }

@@ -20,7 +20,7 @@ export const useWordle = (solution: string) => {
     const guess: HistoryGuess = {
       letters: [],
     };
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < WORD_LENGTH; i++) {
       const guessLetter = currentGuess.charAt(i);
       let result = LetterCheckResult.NONE;
       if (solution.charAt(i) === guessLetter) {
