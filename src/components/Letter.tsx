@@ -1,5 +1,4 @@
-import { LetterCheckResult } from '../../model.ts';
-import React, { useEffect } from 'react';
+import { LetterCheckResult } from '../model.ts';
 
 type ComponentProps = {
   letter: string;

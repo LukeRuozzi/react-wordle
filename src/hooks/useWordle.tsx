@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   HistoryGuess,
   LetterCheck,
@@ -6,22 +6,21 @@ import {
   MAX_TURNS,
   Result,
   WORD_LENGTH,
-} from '../../model.ts';
+} from '../model.ts';
 
 export const useWordle = (solution: string) => {
   const [history, setHistory] = useState<HistoryGuess[]>([]);
   const [wordsHistory, setWordsHistory] = useState<string[]>([]);
-  const [currentGuess, setCurrentGuess] = useState<string | null>(null);
+  const [currentGuess, setCurrentGuess] = useState<string>("");
   const [result, setResult] = useState<Result | null>(null);
   const [turns, setTurns] = useState(0);
 
-  const reset = (solution: string) => {
+  const reset = () => {
     setHistory([]);
     setWordsHistory([]);
-    setCurrentGuess(null);
+    setCurrentGuess("");
     setResult(null);
     setTurns(0);
-    solution = solution;
   };
 
   const checkGuess = () => {
@@ -69,12 +68,12 @@ export const useWordle = (solution: string) => {
       setTurns(turns + 1);
     }
 
-    setCurrentGuess(null);
+    setCurrentGuess("");
 
     setWordsHistory([...wordsHistory, completeWord]);
   };
 
-  const keyupHandler = (button) => {
+  const keyupHandler = (button: string) => {
     //console.log(e.key);
 
     if (result) {

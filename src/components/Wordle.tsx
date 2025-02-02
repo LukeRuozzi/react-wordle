@@ -7,25 +7,28 @@ import {
   MAX_TURNS,
   Result,
   WORD_LENGTH,
-} from '../../model.ts';
+} from '../model.ts';
 import { Modal } from '../layout/Modal.tsx';
-import { faker } from '@faker-js/faker';
+import {Faker, it} from '@faker-js/faker';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
 export const Wordle = () => {
-  const [solution, setSolution] = useState<string | null>(null);
+  const [solution, setSolution] = useState<string>("");
 
   useEffect(() => {
     setSolution(getSolution());
   }, []);
 
   const getSolution = (): string => {
-    faker.locale = 'it';
+
+    const customFaker = new Faker({
+      locale: [it],
+    });
 
     let solution = '';
     do {
-      solution = faker.name.firstName('female');
+      solution = customFaker.person.firstName('female');
       //solution = faker.word.noun(5);
       //solution = faker.commerce.product();
     } while (solution.length !== WORD_LENGTH);
@@ -45,7 +48,7 @@ export const Wordle = () => {
   const resetGame = () => {
     const newSolution = getSolution();
     setSolution(newSolution);
-    reset(newSolution);
+    reset();
   };
 
   const printGuess = (key: number, letters: LetterCheck[]): JSX.Element => {
@@ -73,7 +76,7 @@ export const Wordle = () => {
     );
   };
 
-  const onKeyPress = (button) => {
+  const onKeyPress = (button: string) => {
     keyupHandler(button);
     //console.log('Button pressed', button);
   };
@@ -92,12 +95,12 @@ export const Wordle = () => {
 
   return (
     <React.Fragment>
-      {solution && false && (
-        <>
-          Solution: {solution}
-          <hr></hr>
-        </>
-      )}
+      {/*{solution && false && (*/}
+      {/*  <>*/}
+      {/*    Solution: {solution}*/}
+      {/*    <hr></hr>*/}
+      {/*  </>*/}
+      {/*)}*/}
       {history &&
         history.length > 0 &&
         history.map((guess, index) => printGuess(index, guess.letters))}
