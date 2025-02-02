@@ -2,6 +2,7 @@
   "name": "react-ts",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@faker-js/faker": "^6.2.0",
     "@types/react": "^16.8.2",
@@ -11,12 +12,11 @@
     "react-simple-keyboard": "^3.4.112"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "dev": "vite",
+    "build": "tsc -b && vite build"
   },
   "devDependencies": {
-    "react-scripts-ts": "latest"
+    "vite": "^5.4.9",
+    "@vitejs/plugin-react": "^4.3.2"
   }
 }
