@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { render } from 'react-dom';
-import { Wordle } from './components/Wordle';
-import './style.css';
+import { Wordle } from './components/Wordle.tsx';
+import "./style.css";
 
 interface AppProps {}
 
