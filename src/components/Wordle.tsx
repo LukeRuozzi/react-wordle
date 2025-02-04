@@ -28,7 +28,7 @@ export const Wordle = () => {
 
     let solution = '';
     do {
-      solution = customFaker.person.firstName('female');
+      solution = customFaker.person.firstName('male');
       //solution = faker.word.noun(5);
       //solution = faker.commerce.product();
     } while (solution.length !== WORD_LENGTH);
